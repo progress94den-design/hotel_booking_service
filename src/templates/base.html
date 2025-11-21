@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        <!-- Заголовок будет здесь -->
+        {% endblock %}
+    </title>
+</head>
+<body>
+    <header>
+        <h1>Сайт по бронированию отелей</h1>
+        <nav>
+            <a href="{% url 'hotels:index' %}">Главная</a>
+            <a href="{% url 'hotels:about' %}">О нас</a>
+            <a href="{% url 'bookings:bookings_list' %}">Забронированные отели</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Содержимое страницы будет здесь -->
+        {% endblock %}
+    </main>
+
+</body>
