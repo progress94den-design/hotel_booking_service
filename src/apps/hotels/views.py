@@ -1,27 +1,22 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
+from apps.hotels.models import Hotel
 
 
-def index(request) -> HttpResponse:
+def hotels_list(request) -> HttpResponse:
+    hotels = Hotel.objects.all()
     data = {
-        'title': 'Главная',
-        'content': 'Отели',
+        'title': f'Все отели',
+        'hotels':hotels,
     }
-    return render(request,'hotels/index.html', context=data)
+    return render(request, 'hotels/hotels_list.html', context=data)
 
 
-def about(request) -> HttpResponse:
+def show_hotel(request, hotel_id) -> HttpResponse:
+    hotel = get_object_or_404(Hotel, pk=hotel_id)
     data = {
-        'title': 'О сайте',
-        'content': 'Бла бла бла, о нас и еще немного о нас',
+        'title': f'Отель {hotel.name}',
+        'hotel':hotel,
     }
-    return render(request,'hotels/index.html', context=data)
-
-
-def current_hotel(request, hotel_id) -> HttpResponse:
-    data = {
-        'title': f'Отель {hotel_id}',
-        'content': f'Описание отеля {hotel_id}',
-        'hotel_id': hotel_id,
-    }
-    return render(request,'hotels/index.html', context=data)
+    return render(request, 'hotels/show_hotel.html', context=data)

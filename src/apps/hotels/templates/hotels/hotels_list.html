@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<ul>
+    {% for hotel in hotels %}
+        <h2>{{ hotel.name }}</h2>
+        <p>{{ hotel.price }}</p>
+        <p><a href="{% url 'hotels:hotel' hotel.id %}">Об отеле</a> </p>
+        {% if not forloop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endblock %}
