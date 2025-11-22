@@ -1,10 +1,9 @@
 from django.urls import path
-
-from . import views
-
-app_name = 'bookings'
+from apps.bookings.views import BookingViewSet
 
 urlpatterns = [
-    path('', views.bookings_list, name='bookings_list'),
-    path('<int:booking_id>/', views.create_bookings, name='create_booking'),
+    path('', BookingViewSet.as_view({"get": "list", "post": "create"}), name='bookings_list'),
+    path('<int:hotel_id>/', BookingViewSet.as_view(
+        {"get": "retrieve", "put": "update", "patch": "partial_update", "delete": "destroy"}), name='bookings_detail'
+         ),
 ]
