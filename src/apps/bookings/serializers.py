@@ -34,7 +34,7 @@ class BookingSerializer(serializers.ModelSerializer):
         overlapping_bookings = Booking.objects.filter(hotel=hotel)
 
         overlapping_bookings = overlapping_bookings.filter(
-            Q(check_in__lt=check_out) | Q(check_out__gt=check_in)
+            Q(check_in__lte=check_out, check_out__gte=check_in)
         )
 
         if overlapping_bookings.exists():
