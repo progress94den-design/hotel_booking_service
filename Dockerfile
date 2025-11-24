@@ -1,22 +1,32 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
-    curl \
-    git \
+    netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.cargo/bin:$PATH"
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
 
+
 COPY pyproject.toml ./
-RUN uv sync --frozen
+COPY uv.lock ./
 
-COPY . .
+COPY src/ ./src
+ENV PYTHONPATH=/app/src
+RUN uv sync --no-dev
 
-EXPOSE 8000
+RUN uv run python src/manage.py collectstatic --noinput
 
-CMD ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Команда запуска через uv run
+CMD ["sh", "-c", "\
+    until nc -z $DB_HOST $DB_PORT; do \
+      echo 'Waiting for DB...'; sleep 1; \
+    done; \
+    echo 'DB is up, applying migrations...'; \
+    uv run python src/manage.py migrate && \
+    uv run python src/manage.py collectstatic --noinput && \
+    uv run gunicorn src.hotelservice.wsgi:application --bind 0.0.0.0:8000 \
+"]
