@@ -12,5 +12,15 @@ dependencies = [
     "psycopg2>=2.9.11",
     "python-dotenv>=1.2.1",
 ]
-[project.optional-dependencies]
-dev = ["ruff"]
+#[project.optional-dependencies]
+#dev = [
+#    "ruff>=0.12.10",
+#    "pytest>=9.0.1",
+#]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.1",
+    "pytest-django>=4.11.1",
+    "ruff>=0.14.6",
+]
