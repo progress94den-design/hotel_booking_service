@@ -2,9 +2,9 @@ name: Python Code Quality with Ruff (uv)
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, dev ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, dev ]
 
 jobs:
   ruff-quality-check:
