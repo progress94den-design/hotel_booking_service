@@ -8,5 +8,5 @@ class HotelViewSet(viewsets.ModelViewSet):
     queryset = Hotel.objects.all()
     serializer_class = HotelSerializer
     filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['price', 'created_at']
-    ordering = ['-created_at']
+    ordering_fields = ["price", "created_at"]
+    ordering = ["-created_at"]
