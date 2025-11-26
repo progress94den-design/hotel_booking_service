@@ -1,0 +1,52 @@
+name: Python Code Quality with Ruff (uv)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  ruff-quality-check:
+    name: Ruff Code Quality Check
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+
+    steps:
+
+      # Шаг 1: Получить код
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Шаг 2: Установить нужную версию Python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Шаг 3: Установка uv (официальный способ)
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      # Шаг 4: Установка зависимостей проекта (включая Ruff)
+      - name: Install project dependencies via uv
+        run: |
+          uv sync --all-extras --dev
+
+      # Шаг 5: Проверка Ruff lint
+      - name: Run Ruff linting
+        run: |
+          echo "Running ruff check..."
+          uv run ruff check .
+          echo "Ruff check completed!"
+
+      # Шаг 6: Проверка форматирования Ruff
+      - name: Check code formatting
+        run: |
+          echo "Checking formatting..."
+          uv run ruff format --check .
+          echo "Formatting OK!"

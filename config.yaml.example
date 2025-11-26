@@ -1,0 +1,5 @@
+POSTGRES_DB=hotelservice_db
+POSTGRES_USER=hotelservice_db
+POSTGRES_PASSWORD=hotelservice_db
+DB_HOST=db
+DB_PORT=5432
