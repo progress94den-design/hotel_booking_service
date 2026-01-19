@@ -3,7 +3,7 @@
 Запуск сервиса:
 1) копируем себе на комп - git clone ...
 2) переходим в директорию проекта - cd hotel_booking_service
-3) подтягиваем изменения из ветки dev - git pull origin den
+3) подтягиваем изменения из ветки dev - git pull origin dev
 4) переименовываем файл config.yaml.example в .env
 5) запускаем команду - docker compose up --build
 создаются и запускаются контейнеры с БД и проектом.
