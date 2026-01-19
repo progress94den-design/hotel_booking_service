@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<ul>
+    {% for booking in bookings %}
+        <h2>{{ booking.hotel }}</h2>
+        <p>{{ booking.total_price }}</p>
+        <p><a href="{% url 'bookings:create_booking' booking.id %}">Забронировать</a></p>
+        {% if not forloop.last %}
+        <hr>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endblock %}
